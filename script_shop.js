@@ -1,4 +1,4 @@
-const API_URL = "https://zingmini-backend-2.onrender.com";
+const API_URL = "https://zingserver.onrender.com";
 
 async function loadProducts() {
   try {

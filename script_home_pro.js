@@ -4,7 +4,7 @@
 // Import socket.io client (ESM)
 import io from "https://cdn.socket.io/4.6.1/socket.io.esm.min.js";
 
-const API_URL = "https://zingmini-backend-2.onrender.com";
+const API_URL = "https://zingserver.onrender.com";
 
 // ===== Auth check =====
 const token = localStorage.getItem("token");

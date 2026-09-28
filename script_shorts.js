@@ -112,7 +112,7 @@ async function loadShorts() {
 
   try {
     const res = await fetch(
-      "https://zingmini-backend-2.onrender.com/api/getShorts",
+      "https://zingserver.onrender.com/api/getShorts",
       { headers: { Accept: "application/json" } },
     );
     const data = await res.json();
@@ -173,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const res = await fetch(
-        "https://zingmini-backend-2.onrender.com/api/uploadShort",
+        "https://zingserver.onrender.com/api/uploadShort",
         {
           method: "POST",
           headers: {

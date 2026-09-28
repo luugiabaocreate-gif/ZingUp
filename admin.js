@@ -1,4 +1,4 @@
-const API_URL = "https://zingmini-backend-2.onrender.com";
+const API_URL = "https://zingserver.onrender.com";
 const token = localStorage.getItem("token");
 const currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
 const adminArea = document.getElementById("admin-area");

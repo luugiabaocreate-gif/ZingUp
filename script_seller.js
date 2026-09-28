@@ -1,4 +1,4 @@
-const API_URL = "https://zingmini-backend-2.onrender.com";
+const API_URL = "https://zingserver.onrender.com";
 
 // 🟢 Lấy thông tin user hiện tại (đã đăng nhập trong ZingMini)
 const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
