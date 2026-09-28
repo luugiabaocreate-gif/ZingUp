@@ -1,0 +1,162 @@
+/* ===========================
+   style.css — ZingMini Login (ZingMe Retro)
+   =========================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body.login-page {
+  height: 100vh;
+  font-family: "Arial", sans-serif;
+  background: #d7f1ff;
+  background-image: url("assets/logo.png"); /* ← đây! đường dẫn đúng */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  color: #222;
+}
+
+/* ☁️ Mây bay nhẹ */
+.cloud {
+  position: absolute;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.4;
+  z-index: 1;
+  animation: drift 45s linear infinite;
+}
+.cloud.one {
+  width: 280px;
+  height: 160px;
+  top: 14%;
+  left: -320px;
+  background-image: url("https://i.imgur.com/JuGZsYp.png");
+}
+.cloud.two {
+  width: 320px;
+  height: 160px;
+  top: 42%;
+  left: -380px;
+  background-image: url("https://i.imgur.com/JuGZsYp.png");
+  animation-delay: 15s;
+}
+@keyframes drift {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(140vw);
+  }
+}
+
+/* ✨ Hộp đăng nhập */
+.auth-box {
+  position: relative;
+  z-index: 5;
+  width: 340px;
+  padding: 34px 30px 40px;
+  background: rgba(255, 255, 255, 0.86);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  animation: fadeIn 1s ease both;
+  transition: all 0.3s ease;
+}
+
+.auth-box h2 {
+  color: #0076ff;
+  font-weight: 700;
+  font-size: 22px;
+  margin-bottom: 18px;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.4);
+}
+
+/* Inputs */
+.auth-box input {
+  width: 100%;
+  padding: 10px 14px;
+  margin: 8px 0;
+  border-radius: 10px;
+  border: 1px solid #b8dcff;
+  outline: none;
+  font-size: 14px;
+  background: #f9fcff;
+  transition: all 0.2s ease;
+}
+.auth-box input:focus {
+  border-color: #0076ff;
+  background: #fff;
+  box-shadow: 0 0 6px rgba(0, 118, 255, 0.3);
+}
+
+/* Button */
+.auth-box button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0091ff, #00b6ff);
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 120, 255, 0.4);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.auth-box button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 120, 255, 0.45);
+}
+
+/* Text link */
+.auth-box p {
+  margin-top: 14px;
+  color: #555;
+  font-size: 14px;
+}
+.auth-box span {
+  color: #0076ff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.auth-box span:hover {
+  color: #005ccc;
+}
+
+/* Hidden */
+.hidden {
+  display: none !important;
+}
+
+/* Fade in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Responsive */
+@media (max-width: 420px) {
+  .auth-box {
+    width: 90%;
+    padding: 26px 22px;
+  }
+}

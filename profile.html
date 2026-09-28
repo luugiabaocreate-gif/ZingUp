@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Trang cá nhân — ZingMini</title>
+    <link rel="stylesheet" href="style_home.css" />
+  </head>
+  <body class="zing-body">
+    <header class="zm-topbar">
+      <div class="zm-left">
+        <a class="zm-logo-wrap" href="home.html"
+          ><div class="zm-logo-icon">ZM</div>
+          <div class="zm-logo-txt">ZingMini</div></a
+        >
+      </div>
+      <div></div>
+      <div class="zm-right"><a class="btn" href="home.html">Trang chủ</a></div>
+    </header>
+    <main class="profile-wrap">
+      <div class="card profile-card">
+        <h3>Thông tin cá nhân</h3>
+        <div>
+          <img id="pf-avatar" src="" alt="Ảnh đại diện" />
+          <div>
+            <div id="pf-name">Bạn</div>
+            <div id="pf-email" class="small"></div>
+          </div>
+        </div>
+        <h4>Chỉnh sửa hồ sơ</h4>
+        <div class="field">
+          <label for="inp-name">Tên hiển thị</label
+          ><input id="inp-name" type="text" />
+        </div>
+        <div class="field">
+          <label for="inp-avatar">Avatar (URL)</label
+          ><input id="inp-avatar" type="text" />
+        </div>
+        <div class="field">
+          <label>Tải ảnh mới</label
+          ><label
+            class="avatar-file-picker profile-file-picker"
+            for="avatar-file"
+            ><svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3.5" y="4" width="17" height="16" rx="2" />
+              <circle cx="8.5" cy="9" r="1.5" />
+              <path d="m4.5 17 5-5 3.4 3.4 2.1-2.1 4.5 4.5" /></svg
+            ><span
+              ><strong>Chọn ảnh</strong
+              ><small id="profile-avatar-file-name">Chưa chọn tệp</small></span
+            ><input
+              id="avatar-file"
+              type="file"
+              accept="image/*"
+              aria-label="Chọn ảnh mới" /></label
+          ><button id="upload-avatar-btn" class="btn">
+            Tải lên ảnh đại diện
+          </button>
+        </div>
+        <div style="display: flex; gap: 8px">
+          <button id="save-profile" class="btn primary">Lưu thay đổi</button
+          ><button id="cancel-profile" class="btn">Hoàn tác</button>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <h3>Bài đăng của bạn</h3>
+          <div id="user-posts" class="post-list">
+            <div class="small">Đang tải...</div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Hoạt động gần đây</h3>
+          <div id="user-activity" class="small">Không có hoạt động</div>
+        </div>
+      </div>
+    </main>
+    <script src="profile.js" type="module"></script>
+  </body>
+</html>

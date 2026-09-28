@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZingMini — Đăng nhập</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #00f2ff;
+        --secondary: #7000ff;
+        --bg-dark: #050508;
+        --bg-light: #f8faff;
+        --glass: rgba(255, 255, 255, 0.02);
+        --text: #ffffff;
+        --ease: cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: var(--bg-dark);
+        font-family: "Outfit", sans-serif;
+        color: var(--text);
+        transition: background 1s ease;
+        overflow: hidden;
+      }
+
+      .mesh-gradient {
+        position: fixed;
+        width: 100vw;
+        height: 100vh;
+        background:
+          radial-gradient(
+            circle at 50% 50%,
+            rgba(112, 0, 255, 0.1),
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(0, 242, 255, 0.05),
+            transparent 40%
+          );
+        z-index: -1;
+        filter: blur(80px);
+      }
+
+      body.light-mode {
+        background: var(--bg-light);
+        --text: #1a1a1b;
+        --glass: rgba(0, 0, 0, 0.03);
+      }
+
+      .main-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 100px;
+        width: 95%;
+        max-width: 1100px;
+        z-index: 10;
+      }
+
+      /* --- ĐÈN: GIỮ NGUYÊN 100% GỐC --- */
+      .lamp-stage {
+        position: relative;
+        width: 250px;
+      }
+      .lamp-svg {
+        width: 100%;
+        overflow: visible;
+        filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.5));
+      }
+      #lamp-main {
+        fill: #1a1a1b;
+        transition: fill 0.5s;
+      }
+      body.light-mode #lamp-main {
+        fill: #ffd700;
+        filter: drop-shadow(0 0 50px #ffd700);
+      }
+      .eye-ball {
+        fill: #fff;
+      }
+      .pupil {
+        fill: #000;
+      }
+      .string-path {
+        stroke: #666;
+        stroke-width: 2;
+        fill: none;
+        pointer-events: none;
+      }
+      .pull-knob {
+        fill: #444;
+        cursor: grab;
+        transition: fill 0.3s;
+      }
+
+      /* --- BẢNG THAO TÁC: SẮC NÉT, KHÔNG NHÒE VIỀN --- */
+      .auth-card {
+        flex: 1;
+        padding: 60px;
+        background: var(--glass);
+        backdrop-filter: blur(40px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 50px;
+        position: relative;
+        will-change: transform;
+        /* Bỏ hoàn toàn bóng đổ tím xanh ở viền để bố cục sạch sẽ */
+        box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+      }
+
+      body.light-mode .auth-card {
+        border-color: rgba(0, 242, 255, 0.3);
+        box-shadow: 0 30px 70px rgba(0, 242, 255, 0.1);
+      }
+
+      .form-section {
+        display: none;
+        animation: fadeIn 0.6s var(--ease);
+      }
+      .form-section.active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        background: linear-gradient(to right, var(--primary), var(--secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .input-box {
+        position: relative;
+        margin: 25px 0;
+      }
+      input {
+        width: 100%;
+        padding: 18px 25px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        color: var(--text);
+        font-size: 1rem;
+        outline: none;
+        transition: 0.3s;
+      }
+      body.light-mode input {
+        background: #fff;
+        border-color: #eee;
+      }
+      input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 20px rgba(0, 242, 255, 0.1);
+      }
+
+      /* --- CHỈ CÓ NÚT BẤM LÀ CÓ ÁNH NEON (ĐÚNG Ý ÔNG) --- */
+      .btn-glow {
+        width: 100%;
+        padding: 18px;
+        border: none;
+        border-radius: 20px;
+        background: linear-gradient(45deg, var(--primary), var(--secondary));
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s var(--ease);
+        /* Ánh neon tập trung ở đây */
+        box-shadow:
+          0 10px 30px rgba(0, 242, 255, 0.3),
+          0 0 15px rgba(112, 0, 255, 0.2);
+      }
+      .btn-glow:hover {
+        transform: scale(1.02);
+        box-shadow:
+          0 15px 40px rgba(0, 242, 255, 0.5),
+          0 0 25px rgba(112, 0, 255, 0.3);
+      }
+
+      .nav-links {
+        margin-top: 25px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        font-size: 0.9rem;
+        opacity: 0.7;
+      }
+      .nav-links span {
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .nav-links span:hover {
+        color: var(--primary);
+        opacity: 1;
+      }
+
+      @media (max-width: 900px) {
+        .main-wrapper {
+          flex-direction: column;
+          gap: 40px;
+        }
+        .auth-card {
+          width: 100%;
+          padding: 40px 25px;
+        }
+      }
+
+      /* V5: stable touch layout. The auth card does not parallax on small screens. */
+      .auth-card {
+        transform: translate3d(0, 0, 0);
+      }
+      .pull-knob {
+        touch-action: none;
+        user-select: none;
+        cursor: grab;
+      }
+      .pull-knob:active {
+        cursor: grabbing;
+      }
+      .string-path {
+        stroke-linecap: round;
+      }
+      @media (max-width: 900px) {
+        body {
+          align-items: flex-start;
+          overflow: auto;
+          padding: 28px 0 34px;
+        }
+        .main-wrapper {
+          width: min(94%, 620px);
+          flex-direction: column;
+          gap: 24px;
+          margin: auto;
+        }
+        .lamp-stage {
+          width: min(170px, 42vw);
+        }
+        .auth-card {
+          width: 100%;
+          padding: 38px clamp(22px, 6vw, 42px);
+          transform: none !important;
+          will-change: auto;
+        }
+      }
+      @media (max-width: 520px) {
+        body {
+          padding: 20px 0 26px;
+        }
+        .main-wrapper {
+          width: min(92%, 440px);
+          gap: 12px;
+        }
+        .lamp-stage {
+          width: 135px;
+        }
+        .auth-card {
+          padding: 30px 20px;
+          border-radius: 30px;
+        }
+        h1 {
+          font-size: 2rem;
+        }
+        .input-box {
+          margin: 18px 0;
+        }
+        input {
+          padding: 15px 17px;
+          border-radius: 16px;
+        }
+        .btn-glow {
+          padding: 15px;
+          border-radius: 16px;
+        }
+        .nav-links {
+          flex-wrap: wrap;
+          gap: 10px 18px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .auth-card {
+          transform: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body id="body">
+    <div class="mesh-gradient"></div>
+    <div class="main-wrapper">
+      <div class="lamp-stage">
+        <svg class="lamp-svg" viewBox="0 0 120 200">
+          <path d="M55,100 L65,100 L62,150 L58,150 Z" fill="#333" />
+          <path
+            id="lamp-main"
+            d="M20,100 L100,100 C110,100 110,90 100,30 C90,10 30,10 20,30 C10,90 10,100 20,100"
+          />
+          <g id="eyes">
+            <circle class="eye-ball" cx="45" cy="50" r="6" />
+            <circle class="pupil" cx="45" cy="50" r="3" />
+            <circle class="eye-ball" cx="75" cy="50" r="6" />
+            <circle class="pupil" cx="75" cy="50" r="3" />
+          </g>
+          <path
+            id="mouth"
+            d="M52,75 Q60,75 68,75"
+            stroke="#000"
+            stroke-width="2"
+            fill="none"
+          />
+          <path id="string" class="string-path" d="M90,100 L90,160" />
+          <circle id="knob" class="pull-knob" cx="90" cy="160" r="8" />
+        </svg>
+      </div>
+
+      <div class="auth-card" id="card">
+        <div id="login" class="form-section active">
+          <h1>Hi Friend!</h1>
+          <p style="opacity: 0.6; margin-bottom: 20px">
+            Đăng nhập để bắt đầu hành trình nhé
+          </p>
+          <div class="input-box">
+            <input
+              type="email"
+              id="login-email"
+              autocomplete="username"
+              placeholder="Email đăng nhập"
+            />
+          </div>
+          <div class="input-box">
+            <input
+              type="password"
+              id="login-password"
+              autocomplete="current-password"
+              placeholder="Mật khẩu"
+            />
+          </div>
+          <button type="button" id="login-btn" class="btn-glow">
+            BẮT ĐẦU NGAY
+          </button>
+          <div class="nav-links">
+            <span onclick="toggleForm('reg')">Tạo tài khoản</span
+            ><span onclick="toggleForm('lost')">Quên pass?</span>
+          </div>
+        </div>
+        <div id="reg" class="form-section">
+          <h1>Welcome!</h1>
+          <p style="opacity: 0.6; margin-bottom: 20px">
+            Điền thông tin để tạo tài khoản mới nào
+          </p>
+          <div class="input-box">
+            <input
+              type="text"
+              id="register-name"
+              autocomplete="name"
+              placeholder="Họ và tên"
+            />
+          </div>
+          <div class="input-box">
+            <input
+              type="email"
+              id="register-email"
+              autocomplete="email"
+              placeholder="Email của bạn"
+            />
+          </div>
+          <div class="input-box">
+            <input
+              type="password"
+              id="register-password"
+              autocomplete="new-password"
+              placeholder="Mật khẩu cực mạnh"
+            />
+          </div>
+          <button type="button" id="register-btn" class="btn-glow">
+            ĐĂNG KÝ THÔI
+          </button>
+          <div class="nav-links">
+            <span onclick="toggleForm('login')">Quay lại đăng nhập</span>
+          </div>
+        </div>
+        <div id="lost" class="form-section">
+          <h1>Don't Worry</h1>
+          <p style="opacity: 0.6; margin-bottom: 20px">
+            Nhập email, chúng tôi lo phần còn lại
+          </p>
+          <div class="input-box">
+            <input
+              type="email"
+              id="forgot-email"
+              autocomplete="email"
+              placeholder="Email khôi phục"
+            />
+          </div>
+          <button type="button" id="forgot-btn" class="btn-glow">
+            GỬI MÃ KHÔI PHỤC
+          </button>
+          <div class="nav-links">
+            <span onclick="toggleForm('login')">Quay lại đăng nhập</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="script_auth.js"></script>
+    <script>
+      const body = document.getElementById("body");
+      const card = document.getElementById("card");
+      const knob = document.getElementById("knob");
+      const string = document.getElementById("string");
+      const mouth = document.getElementById("mouth");
+      const pupils = document.querySelectorAll(".pupil");
+      const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      );
+      let isLight = false;
+
+      // Desktop-only parallax. Mobile/tablet remains completely stable for form entry.
+      if (
+        window.matchMedia("(min-width: 901px)").matches &&
+        !reducedMotion.matches
+      ) {
+        let raf = 0;
+        let tx = 0,
+          ty = 0,
+          cx = 0,
+          cy = 0;
+        window.addEventListener(
+          "pointermove",
+          (e) => {
+            tx = (e.clientX / window.innerWidth - 0.5) * 14;
+            ty = (e.clientY / window.innerHeight - 0.5) * 10;
+            if (raf) return;
+            const tick = () => {
+              cx += (tx - cx) * 0.12;
+              cy += (ty - cy) * 0.12;
+              card.style.transform = `translate3d(${cx}px,${cy}px,0)`;
+              pupils.forEach((p) =>
+                p.setAttribute(
+                  "transform",
+                  `translate(${cx * 0.25} ${cy * 0.25})`,
+                ),
+              );
+              if (Math.abs(tx - cx) > 0.05 || Math.abs(ty - cy) > 0.05)
+                raf = requestAnimationFrame(tick);
+              else raf = 0;
+            };
+            raf = requestAnimationFrame(tick);
+          },
+          { passive: true },
+        );
+      }
+
+      function toggleForm(id) {
+        document
+          .querySelectorAll(".form-section")
+          .forEach((s) => s.classList.remove("active"));
+        document.getElementById(id)?.classList.add("active");
+        requestAnimationFrame(() =>
+          document
+            .querySelector(`#${id} input`)
+            ?.focus({ preventScroll: true }),
+        );
+      }
+
+      const setString = (x, y, sway) => {
+        const controlX = 90 + sway * 0.95;
+        const controlY = 112 + Math.max(0, y - 160) * 0.18;
+        string.setAttribute("d", `M90,100 Q${controlX},${controlY} ${x},${y}`);
+        knob.setAttribute("cx", x.toFixed(2));
+        knob.setAttribute("cy", y.toFixed(2));
+      };
+
+      let dragging = false;
+      let pointerId = null;
+      let startX = 90,
+        startY = 160;
+      let releaseX = 90,
+        releaseY = 160;
+      let frame = 0;
+
+      function releaseLamp() {
+        if (reducedMotion.matches) {
+          setString(90, 160, 0);
+          return;
+        }
+        cancelAnimationFrame(frame);
+        let x = releaseX,
+          y = releaseY,
+          vx = (90 - x) * 0.1,
+          vy = -2.4;
+        const tick = () => {
+          const dx = 90 - x,
+            dy = 160 - y;
+          vx += dx * 0.16;
+          vy += dy * 0.18;
+          vx *= 0.82;
+          vy *= 0.8;
+          x += vx;
+          y += vy;
+          setString(x, y, (x - 90) * 1.4);
+          if (Math.abs(dx) + Math.abs(dy) + Math.abs(vx) + Math.abs(vy) > 0.5)
+            frame = requestAnimationFrame(tick);
+          else {
+            setString(90, 160, 0);
+            frame = 0;
+          }
+        };
+        frame = requestAnimationFrame(tick);
+      }
+
+      knob.addEventListener("pointerdown", (e) => {
+        if (e.pointerType !== "touch" && e.button !== 0) return;
+        dragging = true;
+        pointerId = e.pointerId;
+        knob.setPointerCapture?.(pointerId);
+        startX = e.clientX;
+        startY = e.clientY;
+        releaseX = Number(knob.getAttribute("cx")) || 90;
+        releaseY = Number(knob.getAttribute("cy")) || 160;
+        cancelAnimationFrame(frame);
+        mouth.setAttribute("d", "M55,75 Q60,70 65,75");
+      });
+
+      knob.addEventListener("pointermove", (e) => {
+        if (!dragging || e.pointerId !== pointerId) return;
+        const dx = e.clientX - startX,
+          dy = e.clientY - startY;
+        const x = Math.max(66, Math.min(114, 90 + dx * 0.72));
+        const y = Math.max(160, Math.min(228, 160 + dy));
+        releaseX = x;
+        releaseY = y;
+        setString(x, y, dx * 0.72);
+      });
+
+      function finishPull(e) {
+        if (!dragging || (e && e.pointerId !== pointerId)) return;
+        dragging = false;
+        isLight = !isLight;
+        body.classList.toggle("light-mode", isLight);
+        releaseX = Number(knob.getAttribute("cx")) || 90;
+        releaseY = Number(knob.getAttribute("cy")) || 160;
+        releaseLamp();
+        mouth.setAttribute(
+          "d",
+          isLight ? "M50,75 Q60,85 70,75" : "M52,75 Q60,75 68,75",
+        );
+      }
+      knob.addEventListener("pointerup", finishPull);
+      knob.addEventListener("pointercancel", finishPull);
+      knob.addEventListener("lostpointercapture", () => {
+        if (dragging) finishPull();
+      });
+
+      const forgotBtn = document.getElementById("forgot-btn");
+      if (forgotBtn)
+        forgotBtn.addEventListener("click", () =>
+          alert(
+            "Chức năng khôi phục mật khẩu sẽ được kết nối khi backend có endpoint reset mật khẩu.",
+          ),
+        );
+
+      const token = localStorage.getItem("token");
+      const user = localStorage.getItem("currentUser");
+      if (token && user) window.location.href = "home.html";
+    </script>
+  </body>
+</html>

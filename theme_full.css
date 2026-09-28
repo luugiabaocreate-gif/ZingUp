@@ -1,0 +1,28 @@
+/* Theme compatibility layer. Main visual system lives in style_home.css. */
+html.dark body,
+body.dark {
+  background: var(--zm-bg) !important;
+  color: var(--zm-text) !important;
+}
+body.dark .card,
+body.dark .post-card,
+body.dark .create-post,
+body.dark .dropdown,
+body.dark .chat-window,
+body.dark .chat-window .head,
+body.dark .chat-window .foot,
+body.dark .chat-window .message.them {
+  background: var(--zm-surface) !important;
+  color: var(--zm-text) !important;
+  border-color: var(--zm-border) !important;
+}
+body.dark input,
+body.dark textarea,
+body.dark select {
+  background: var(--zm-surface-2) !important;
+  color: var(--zm-text) !important;
+  border-color: var(--zm-border) !important;
+}
+body.dark .chat-window .body {
+  background: var(--zm-surface-2) !important;
+}
