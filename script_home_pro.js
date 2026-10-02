@@ -1674,98 +1674,23 @@ if (uploadShortBtn && shortInput) {
 const storyContainer = document.getElementById("storyContainer");
 const storyInput = document.getElementById("storyInput");
 const btnPostStory = document.getElementById("btnPostStory");
-const btnCancelStory = document.getElementById("btnCancelStory");
-const storyPreviewImage = document.getElementById("story-preview-image");
-const storyPreviewVideo = document.getElementById("story-preview-video");
-const storyFileName = document.getElementById("story-file-name");
-const storyAddPlus = document.querySelector(".add-story .story-add-plus");
-const storyThumb = document.querySelector(".add-story .story-thumb");
-let storyPreviewUrl = "";
 
-function resetStoryComposer() {
-  if (storyPreviewUrl) {
-    URL.revokeObjectURL(storyPreviewUrl);
-    storyPreviewUrl = "";
+// Khi click vào dấu "+"
+document
+  .querySelector(".add-story .story-thumb")
+  .addEventListener("click", () => storyInput.click());
+
+// Khi chọn xong file -> hiện nút "Đăng"
+storyInput.addEventListener("change", () => {
+  if (storyInput.files && storyInput.files.length > 0) {
+    btnPostStory.classList.remove("hidden");
   }
+});
 
-  if (storyPreviewImage) {
-    storyPreviewImage.classList.add("hidden");
-    storyPreviewImage.removeAttribute("src");
-  }
-  if (storyPreviewVideo) {
-    storyPreviewVideo.pause();
-    storyPreviewVideo.classList.add("hidden");
-    storyPreviewVideo.removeAttribute("src");
-    storyPreviewVideo.load();
-  }
-  if (storyAddPlus) storyAddPlus.classList.remove("hidden");
-  if (storyFileName) storyFileName.textContent = "Chưa chọn tệp";
-  if (btnPostStory) btnPostStory.classList.add("hidden");
-  if (btnCancelStory) btnCancelStory.classList.add("hidden");
-  if (storyInput) storyInput.value = "";
-}
-
-// Chọn/re-chọn file bằng nút preview; giữ native input ẩn để không phụ thuộc giao diện trình duyệt.
-if (storyThumb && storyInput) {
-  storyThumb.addEventListener("click", () => storyInput.click());
-  storyThumb.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      storyInput.click();
-    }
-  });
-}
-
-// Khi chọn file: preview ngay tại card và đưa nút Đăng vào vùng layout hợp lệ.
-storyInput?.addEventListener("change", () => {
+// Khi bấm "Đăng"
+btnPostStory.addEventListener("click", async () => {
   const file = storyInput.files?.[0];
-  if (!file) return;
-
-  if (!file.type.startsWith("image/") && !file.type.startsWith("video/")) {
-    alert("Vui lòng chọn ảnh hoặc video hợp lệ!");
-    resetStoryComposer();
-    return;
-  }
-
-  if (storyPreviewUrl) URL.revokeObjectURL(storyPreviewUrl);
-  storyPreviewUrl = URL.createObjectURL(file);
-
-  if (storyFileName) storyFileName.textContent = file.name;
-  storyAddPlus?.classList.add("hidden");
-
-  if (file.type.startsWith("video/")) {
-    storyPreviewImage?.classList.add("hidden");
-    if (storyPreviewVideo) {
-      storyPreviewVideo.src = storyPreviewUrl;
-      storyPreviewVideo.classList.remove("hidden");
-      storyPreviewVideo.load();
-    }
-  } else {
-    storyPreviewVideo?.classList.add("hidden");
-    if (storyPreviewImage) {
-      storyPreviewImage.src = storyPreviewUrl;
-      storyPreviewImage.classList.remove("hidden");
-    }
-  }
-
-  btnPostStory?.classList.remove("hidden");
-  btnCancelStory?.classList.remove("hidden");
-});
-
-btnCancelStory?.addEventListener("click", (event) => {
-  event.stopPropagation();
-  resetStoryComposer();
-});
-
-// Khi bấm "Đăng": chỉ gửi file đã chọn, không phụ thuộc trạng thái CSS của card.
-btnPostStory?.addEventListener("click", async (event) => {
-  event.stopPropagation();
-  const file = storyInput?.files?.[0];
   if (!file) return alert("Vui lòng chọn ảnh hoặc video!");
-
-  btnPostStory.disabled = true;
-  const originalText = btnPostStory.textContent;
-  btnPostStory.textContent = "Đang đăng…";
 
   const formData = new FormData();
   formData.append("story", file);
@@ -1778,18 +1703,17 @@ btnPostStory?.addEventListener("click", async (event) => {
     });
 
     const data = await res.json();
-    if (!res.ok) throw new Error(data.message || "Không thể đăng story!");
-
-    resetStoryComposer();
-    await loadStories();
+    if (res.ok) {
+      alert("✅ Story đã được đăng!");
+      storyInput.value = "";
+      btnPostStory.classList.add("hidden");
+      loadStories();
+    } else {
+      alert(data.message || "Không thể đăng story!");
+    }
   } catch (err) {
     console.error("Lỗi đăng story:", err);
-    alert(err.message || "Không thể đăng story!");
-  } finally {
-    if (btnPostStory) {
-      btnPostStory.disabled = false;
-      btnPostStory.textContent = originalText;
-    }
+    alert("Không thể đăng story!");
   }
 });
 

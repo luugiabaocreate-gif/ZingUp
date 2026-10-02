@@ -101,21 +101,10 @@
     <section class="center-col" aria-live="polite">
       <div class="story-bar">
         <div id="storyContainer" class="story-list">
-          <div class="story-item add-story" aria-label="Thêm Story">
-            <button type="button" class="story-thumb" aria-label="Chọn ảnh hoặc video Story">
-              <span class="story-add-plus" aria-hidden="true">+</span>
-              <img id="story-preview-image" class="story-preview-media hidden" alt="Xem trước Story" />
-              <video id="story-preview-video" class="story-preview-media hidden" muted playsinline preload="metadata" aria-hidden="true"></video>
-            </button>
-            <div class="story-add-meta">
-              <span class="story-add-label">Thêm tin</span>
-              <span id="story-file-name" class="story-file-name">Chưa chọn tệp</span>
-            </div>
-            <div class="story-add-actions">
-              <button type="button" id="btnPostStory" class="btn primary hidden">Đăng</button>
-              <button type="button" id="btnCancelStory" class="btn story-cancel hidden" aria-label="Bỏ chọn Story">Hủy</button>
-            </div>
+          <div class="story-item add-story">
+            <div class="story-thumb">+</div><span>Thêm tin</span>
             <input type="file" id="storyInput" accept="image/*,video/*" hidden />
+            <button id="btnPostStory" class="btn hidden">Đăng</button>
           </div>
         </div>
       </div>
