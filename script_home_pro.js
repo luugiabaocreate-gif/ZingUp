@@ -4,7 +4,7 @@
 // Import socket.io client (ESM)
 import io from "https://cdn.socket.io/4.6.1/socket.io.esm.min.js";
 
-const API_URL = "https://zingserver.onrender.com";
+const API_URL = "https://zingmini-backend-2.onrender.com";
 
 // ===== Auth check =====
 const token = localStorage.getItem("token");
@@ -90,16 +90,12 @@ setTimeout(() => {
       document.body.classList.add("dark");
       document.documentElement.classList.add("dark"); // in case some rules target html
       if (btn) btn.setAttribute("aria-pressed", "true");
-      if (btn)
-        btn.innerHTML =
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>'; // switch to light
+      if (btn) btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>'; // switch to light
     } else {
       document.body.classList.remove("dark");
       document.documentElement.classList.remove("dark");
       if (btn) btn.setAttribute("aria-pressed", "false");
-      if (btn)
-        btn.innerHTML =
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 15.2A8.5 8.5 0 0 1 8.8 4 8.5 8.5 0 1 0 20 15.2z"/></svg>'; // switch to dark
+      if (btn) btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 15.2A8.5 8.5 0 0 1 8.8 4 8.5 8.5 0 1 0 20 15.2z"/></svg>'; // switch to dark
     }
     try {
       localStorage.setItem(KEY, theme);
@@ -118,7 +114,7 @@ setTimeout(() => {
       applyTheme(next);
       // optional: dispatch event so other modules can react
       window.dispatchEvent(
-        new CustomEvent("theme:changed", { detail: { theme: next } }),
+        new CustomEvent("theme:changed", { detail: { theme: next } })
       );
     });
   } else {
@@ -130,7 +126,7 @@ setTimeout(() => {
           : "dark";
         applyTheme(next);
         window.dispatchEvent(
-          new CustomEvent("theme:changed", { detail: { theme: next } }),
+          new CustomEvent("theme:changed", { detail: { theme: next } })
         );
       }
     });
@@ -286,10 +282,10 @@ function renderShorts(list) {
       s.videoUrl || s.video || (s.videoUrl && `${API_URL}${s.videoUrl}`);
     div.innerHTML = `
       <video src="${escapeHtml(
-        src,
+        src
       )}" controls playsinline preload="metadata" style="width:100%;height:auto;display:block;border-radius:8px;object-fit:cover"></video>
       <div style="padding:8px;font-size:13px;color:var(--text-color,#183b6d)">${escapeHtml(
-        s.description || s.caption || "",
+        s.description || s.caption || ""
       )}</div>
     `;
     shortsContainer.appendChild(div);
@@ -403,11 +399,11 @@ function createPostNode(post) {
   div.innerHTML = `
     <div class="post-header">
       <img src="${escapeHtml(avatar)}" alt="${escapeHtml(
-        user.name || "Người dùng",
-      )}" data-id="${escapeHtml(user._id || user.id || "")}" />
+    user.name || "Người dùng"
+  )}" data-id="${escapeHtml(user._id || user.id || "")}" />
       <div>
         <div style="font-weight:700">${escapeHtml(
-          user.name || "Người dùng",
+          user.name || "Người dùng"
         )}</div>
         <div class="small">${escapeHtml(time)}</div>
       </div>
@@ -417,17 +413,17 @@ function createPostNode(post) {
       ${
         post.video
           ? `<video controls src="${escapeHtml(
-              post.video,
+              post.video
             )}" style="width:100%;border-radius:8px;margin-top:8px"></video>`
           : post.image
-            ? `<img src="${escapeHtml(
-                post.image,
-              )}" style="width:100%;border-radius:8px;margin-top:8px" />`
-            : post.file
-              ? `<a href="${escapeHtml(post.file)}" target="_blank">📎 ${escapeHtml(
-                  post.file.split("/").pop(),
-                )}</a>`
-              : ""
+          ? `<img src="${escapeHtml(
+              post.image
+            )}" style="width:100%;border-radius:8px;margin-top:8px" />`
+          : post.file
+          ? `<a href="${escapeHtml(post.file)}" target="_blank">📎 ${escapeHtml(
+              post.file.split("/").pop()
+            )}</a>`
+          : ""
       }
 
     </div>
@@ -504,10 +500,10 @@ function renderMediaHtml(path) {
   const ext = url.split(".").pop().toLowerCase();
   if (["mp4", "webm", "ogg"].includes(ext))
     return `<video controls src="${escapeHtml(
-      url,
+      url
     )}" style="width:100%;border-radius:8px;margin-top:8px"></video>`;
   return `<img src="${escapeHtml(
-    url,
+    url
   )}" style="width:100%;border-radius:8px;margin-top:8px" />`;
 }
 
@@ -539,8 +535,8 @@ function renderFriendsList() {
     el.className = "s-item";
     el.innerHTML = `
   <img src="${escapeHtml(u.avatar)}" data-id="${escapeHtml(
-    u._id,
-  )}" alt="${escapeHtml(u.name)}"/>
+      u._id
+    )}" alt="${escapeHtml(u.name)}"/>
   <div style="flex:1;display:flex;align-items:center;justify-content:space-between">
     <span>${escapeHtml(u.name)}</span>
     ${u.online ? '<span class="online-dot" title="Đang online"></span>' : ""}
@@ -566,13 +562,13 @@ function recordSent(chatId, text) {
   recentSent[chatId].push({ text, ts: Date.now() });
   // prune older than 5s
   recentSent[chatId] = recentSent[chatId].filter(
-    (x) => Date.now() - x.ts < 5000,
+    (x) => Date.now() - x.ts < 5000
   );
 }
 function isRecentSentEcho(chatId, text) {
   if (!recentSent[chatId]) return false;
   return recentSent[chatId].some(
-    (x) => x.text === text && Date.now() - x.ts <= 3000,
+    (x) => x.text === text && Date.now() - x.ts <= 3000
   );
 }
 
@@ -582,7 +578,7 @@ function appendChatMessage(
   user,
   text,
   cls = "them",
-  options = { temporary: false },
+  options = { temporary: false }
 ) {
   const el = document.createElement("div");
   el.className = `message ${cls}`;
@@ -601,8 +597,7 @@ function appendChatMessage(
 // open chat window (if exists, bring to top)
 function openChatWindow(friendId, friendName) {
   // Mobile uses a dedicated messaging experience later; keep Home focused on the feed.
-  if (window.matchMedia && window.matchMedia("(max-width: 760px)").matches)
-    return;
+  if (window.matchMedia && window.matchMedia("(max-width: 760px)").matches) return;
   if (!chatWindowsRoot) return;
   if (openChats[friendId]) {
     const existing = openChats[friendId];
@@ -618,8 +613,7 @@ function openChatWindow(friendId, friendName) {
   win.className = "chat-window";
   win.dataset.uid = friendId;
   const friendAvatar =
-    friendPool[friendId]?.avatar ||
-    `https://i.pravatar.cc/64?u=${encodeURIComponent(friendId)}`;
+    friendPool[friendId]?.avatar || `https://i.pravatar.cc/64?u=${encodeURIComponent(friendId)}`;
   win.innerHTML = `
     <div class="chat-collapsed-bubble" role="button" tabindex="0"
          aria-label="Mở lại cuộc trò chuyện với ${escapeHtml(friendName)}"
@@ -671,7 +665,7 @@ function openChatWindow(friendId, friendName) {
   (async () => {
     try {
       const msgs = await apiFetch(
-        `${API_URL}/api/messages/${currentUser._id}/${friendId}`,
+        `${API_URL}/api/messages/${currentUser._id}/${friendId}`
       );
       let arr = Array.isArray(msgs) ? msgs : msgs.data || msgs.messages || [];
       if (!Array.isArray(arr)) arr = [];
@@ -777,7 +771,7 @@ if (socket && socket.on) {
       // consume and ignore echo (prune record)
       if (recentSent[chatId])
         recentSent[chatId] = recentSent[chatId].filter(
-          (x) => x.text !== msg.text,
+          (x) => x.text !== msg.text
         );
       return;
     }
@@ -812,7 +806,7 @@ if (socket && socket.on) {
 
   socket.on("reaction", (r) => {
     const node = document.querySelector(
-      `.post-card[data-post-id="${r.postId}"]`,
+      `.post-card[data-post-id="${r.postId}"]`
     );
     if (node) {
       const likeBtn = node.querySelector(".like-btn");
@@ -824,7 +818,7 @@ if (socket && socket.on) {
   });
 
   socket.on("connect_error", (err) =>
-    console.warn("socket connect_error", err),
+    console.warn("socket connect_error", err)
   );
   // ===== Realtime: nhận danh sách user online =====
   socket.on("online_users", (ids) => {
@@ -851,10 +845,10 @@ if (socket && socket.on) {
             s.videoUrl || s.video || (s.videoUrl && `${API_URL}${s.videoUrl}`);
           div.innerHTML = `
         <video src="${escapeHtml(
-          src,
+          src
         )}" controls playsinline preload="metadata" style="width:100%;height:auto;display:block;border-radius:8px;object-fit:cover"></video>
         <div style="padding:8px;font-size:13px;color:var(--text-color,#183b6d)">${escapeHtml(
-          s.description || s.caption || "",
+          s.description || s.caption || ""
         )}</div>
       `;
           // insert on top
@@ -913,11 +907,11 @@ if (messengerBtn && messengerDropdown) {
         item.style.gap = "8px";
         item.style.alignItems = "center";
         item.innerHTML = `<img src="${escapeHtml(
-          u.avatar,
+          u.avatar
         )}" style="width:36px;height:36px;border-radius:50%"/><div style="flex:1">${escapeHtml(
-          u.name,
+          u.name
         )}</div><button class="btn open-chat" data-id="${escapeHtml(
-          u._id,
+          u._id
         )}">Chat</button>`;
         const btn = item.querySelector(".open-chat");
         btn.addEventListener("click", () => openChatWindow(u._id, u.name));
@@ -1057,7 +1051,7 @@ async function startVoiceCall(friendId, friendName) {
           }
         }
       },
-      { once: true },
+      { once: true }
     );
   };
 
@@ -1164,7 +1158,7 @@ socket.on("call-offer", async (data) => {
           }
         }
       },
-      { once: true },
+      { once: true }
     );
   };
 
@@ -1178,7 +1172,7 @@ socket.on("call-offer", async (data) => {
 socket.on("call-answer", async (data) => {
   if (currentPeer) {
     await currentPeer.setRemoteDescription(
-      new RTCSessionDescription(data.answer),
+      new RTCSessionDescription(data.answer)
     );
   }
 });
@@ -1268,7 +1262,7 @@ async function openCommentBox(postId) {
         item.style.background = "#f6fbff";
         item.style.borderRadius = "6px";
         item.innerHTML = `<b>${escapeHtml(
-          c.userName || "Ẩn danh",
+          c.userName || "Ẩn danh"
         )}:</b> ${escapeHtml(c.text)}`;
         list.appendChild(item);
       });
@@ -1286,7 +1280,7 @@ async function openCommentBox(postId) {
     temp.style.background = "#f6fbff";
     temp.style.borderRadius = "6px";
     temp.innerHTML = `<b>${escapeHtml(currentUser.name)}:</b> ${escapeHtml(
-      text,
+      text
     )}`;
     list.appendChild(temp);
     input.value = "";
@@ -1366,8 +1360,7 @@ if (leftToggle && leftCol) {
 
   document.addEventListener("click", (event) => {
     if (window.innerWidth > 760 || !leftCol.classList.contains("show")) return;
-    if (!leftCol.contains(event.target) && !leftToggle.contains(event.target))
-      closeMobileMenus();
+    if (!leftCol.contains(event.target) && !leftToggle.contains(event.target)) closeMobileMenus();
   });
 
   window.addEventListener("resize", () => {
@@ -1385,6 +1378,7 @@ if (rightToggle && rightCol) {
 document.getElementById("zing-shop-btn")?.addEventListener("click", () => {
   window.location.href = "shop.html";
 });
+
 
 /************************************************************
  *  Normalize avatar URL + safe fetch current user + upload
@@ -1426,7 +1420,7 @@ async function fetchAndStoreCurrentUser() {
     if (!res.ok) {
       console.warn("⚠️ Token có thể hết hạn, thử tải public profile...");
       const res2 = await fetch(
-        `${API_URL}/api/users/public/${currentUser._id}`,
+        `${API_URL}/api/users/public/${currentUser._id}`
       );
       const data2 = await res2.json();
       if (data2?.success && data2?.user) {
@@ -1442,7 +1436,7 @@ async function fetchAndStoreCurrentUser() {
         return data2.user;
       } else {
         console.warn(
-          "⚠️ Không thể tải public profile, dùng localStorage thay thế.",
+          "⚠️ Không thể tải public profile, dùng localStorage thay thế."
         );
         return currentUser;
       }
@@ -1649,7 +1643,7 @@ if (uploadShortBtn && shortInput) {
         currentUser?._id ||
           (localStorage.getItem("currentUser") &&
             JSON.parse(localStorage.getItem("currentUser"))._id) ||
-          "anonymous",
+          "anonymous"
       );
 
       const res = await fetch(`${API_URL}/api/uploadShort`, {
@@ -1680,23 +1674,98 @@ if (uploadShortBtn && shortInput) {
 const storyContainer = document.getElementById("storyContainer");
 const storyInput = document.getElementById("storyInput");
 const btnPostStory = document.getElementById("btnPostStory");
+const btnCancelStory = document.getElementById("btnCancelStory");
+const storyPreviewImage = document.getElementById("story-preview-image");
+const storyPreviewVideo = document.getElementById("story-preview-video");
+const storyFileName = document.getElementById("story-file-name");
+const storyAddPlus = document.querySelector(".add-story .story-add-plus");
+const storyThumb = document.querySelector(".add-story .story-thumb");
+let storyPreviewUrl = "";
 
-// Khi click vào dấu "+"
-document
-  .querySelector(".add-story .story-thumb")
-  .addEventListener("click", () => storyInput.click());
-
-// Khi chọn xong file -> hiện nút "Đăng"
-storyInput.addEventListener("change", () => {
-  if (storyInput.files && storyInput.files.length > 0) {
-    btnPostStory.classList.remove("hidden");
+function resetStoryComposer() {
+  if (storyPreviewUrl) {
+    URL.revokeObjectURL(storyPreviewUrl);
+    storyPreviewUrl = "";
   }
+
+  if (storyPreviewImage) {
+    storyPreviewImage.classList.add("hidden");
+    storyPreviewImage.removeAttribute("src");
+  }
+  if (storyPreviewVideo) {
+    storyPreviewVideo.pause();
+    storyPreviewVideo.classList.add("hidden");
+    storyPreviewVideo.removeAttribute("src");
+    storyPreviewVideo.load();
+  }
+  if (storyAddPlus) storyAddPlus.classList.remove("hidden");
+  if (storyFileName) storyFileName.textContent = "Chưa chọn tệp";
+  if (btnPostStory) btnPostStory.classList.add("hidden");
+  if (btnCancelStory) btnCancelStory.classList.add("hidden");
+  if (storyInput) storyInput.value = "";
+}
+
+// Chọn/re-chọn file bằng nút preview; giữ native input ẩn để không phụ thuộc giao diện trình duyệt.
+if (storyThumb && storyInput) {
+  storyThumb.addEventListener("click", () => storyInput.click());
+  storyThumb.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      storyInput.click();
+    }
+  });
+}
+
+// Khi chọn file: preview ngay tại card và đưa nút Đăng vào vùng layout hợp lệ.
+storyInput?.addEventListener("change", () => {
+  const file = storyInput.files?.[0];
+  if (!file) return;
+
+  if (!file.type.startsWith("image/") && !file.type.startsWith("video/")) {
+    alert("Vui lòng chọn ảnh hoặc video hợp lệ!");
+    resetStoryComposer();
+    return;
+  }
+
+  if (storyPreviewUrl) URL.revokeObjectURL(storyPreviewUrl);
+  storyPreviewUrl = URL.createObjectURL(file);
+
+  if (storyFileName) storyFileName.textContent = file.name;
+  storyAddPlus?.classList.add("hidden");
+
+  if (file.type.startsWith("video/")) {
+    storyPreviewImage?.classList.add("hidden");
+    if (storyPreviewVideo) {
+      storyPreviewVideo.src = storyPreviewUrl;
+      storyPreviewVideo.classList.remove("hidden");
+      storyPreviewVideo.load();
+    }
+  } else {
+    storyPreviewVideo?.classList.add("hidden");
+    if (storyPreviewImage) {
+      storyPreviewImage.src = storyPreviewUrl;
+      storyPreviewImage.classList.remove("hidden");
+    }
+  }
+
+  btnPostStory?.classList.remove("hidden");
+  btnCancelStory?.classList.remove("hidden");
 });
 
-// Khi bấm "Đăng"
-btnPostStory.addEventListener("click", async () => {
-  const file = storyInput.files?.[0];
+btnCancelStory?.addEventListener("click", (event) => {
+  event.stopPropagation();
+  resetStoryComposer();
+});
+
+// Khi bấm "Đăng": chỉ gửi file đã chọn, không phụ thuộc trạng thái CSS của card.
+btnPostStory?.addEventListener("click", async (event) => {
+  event.stopPropagation();
+  const file = storyInput?.files?.[0];
   if (!file) return alert("Vui lòng chọn ảnh hoặc video!");
+
+  btnPostStory.disabled = true;
+  const originalText = btnPostStory.textContent;
+  btnPostStory.textContent = "Đang đăng…";
 
   const formData = new FormData();
   formData.append("story", file);
@@ -1709,17 +1778,18 @@ btnPostStory.addEventListener("click", async () => {
     });
 
     const data = await res.json();
-    if (res.ok) {
-      alert("✅ Story đã được đăng!");
-      storyInput.value = "";
-      btnPostStory.classList.add("hidden");
-      loadStories();
-    } else {
-      alert(data.message || "Không thể đăng story!");
-    }
+    if (!res.ok) throw new Error(data.message || "Không thể đăng story!");
+
+    resetStoryComposer();
+    await loadStories();
   } catch (err) {
     console.error("Lỗi đăng story:", err);
-    alert("Không thể đăng story!");
+    alert(err.message || "Không thể đăng story!");
+  } finally {
+    if (btnPostStory) {
+      btnPostStory.disabled = false;
+      btnPostStory.textContent = originalText;
+    }
   }
 });
 
@@ -2114,13 +2184,13 @@ socket.off("call-answer").on("call-answer", async (data) => {
     if (data.type === "video") {
       if (currentVideoPeer) {
         await currentVideoPeer.setRemoteDescription(
-          new RTCSessionDescription(data.answer),
+          new RTCSessionDescription(data.answer)
         );
       }
     } else {
       if (currentPeer) {
         await currentPeer.setRemoteDescription(
-          new RTCSessionDescription(data.answer),
+          new RTCSessionDescription(data.answer)
         );
       }
     }
@@ -2137,7 +2207,7 @@ socket.off("call-ice").on("call-ice", async (data) => {
   try {
     if (data.type === "video" && currentVideoPeer) {
       await currentVideoPeer.addIceCandidate(
-        new RTCIceCandidate(data.candidate),
+        new RTCIceCandidate(data.candidate)
       );
     } else if (data.type !== "video" && currentPeer) {
       await currentPeer.addIceCandidate(new RTCIceCandidate(data.candidate));
